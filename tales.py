@@ -2,7 +2,7 @@ import random
 
 import pygame
 import numpy as np
-from pygame.locals import *
+# from pygame.locals import *
 
 from title import title
 from battle import battle
@@ -75,7 +75,10 @@ text = Text('assets\\sprites\\dialogue\\alphabet.png')
 narrator = Narrator(player)
 box = Box()
 
-Joe = NPC((30, 30), (300, 300), player, narrator)
+Joe = NPC(True, player, narrator, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+                                  'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+                                  'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', **{'size': (30, 30), 'pos': (300, 300)})
+God = NPC(False, player, narrator, 'bbb')
 npc_group.add(Joe)
 
 NUMBER_OF_ENEMIES = 5
@@ -108,7 +111,7 @@ if __name__ == "__main__":
     running = True
     while running:
         for event in pygame.event.get():
-            if event.type == QUIT:
+            if event.type == pygame.locals.QUIT:
                 running = False
 
             if event.type == pygame.KEYDOWN:
@@ -172,8 +175,6 @@ if __name__ == "__main__":
                     player, walls, random.choice(colours), screen, ENEMY_DESPAWN_BOX)
                 enemies.add(stapmone)
                 all_sprites.add(stapmone)
-        
-        narrator.display_text('hello')
 
         pygame.display.update()
         clock.tick(FPS)

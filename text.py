@@ -47,7 +47,6 @@ class Box:
         self.surf.blit(self.img, (0, 0))
 
     def show_sentence(self, text, message, pos):
-        print(message)
         for j in range(math.floor(self.i)+1):
             order = list(enumerate(message))[j][0]
             index = order % 35

@@ -22,19 +22,21 @@ RANDOM_COLOUR = (random.randint(0, 255), random.randint(0, 255), random.randint(
 
 
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, size, pos, player, narrator):
+    def __init__(self, visible, player, narrator, text, **kwargs):
         super().__init__()
-        self.img = pygame.image.load(os.path.join(os.getcwd(), 'assets\\sprites\\npc\\npc.png'))
-        self.surf = self.img.convert_alpha()
-        self.rect = self.surf.get_rect(topleft=pos)
-        self.size = size
+        if visible:
+            self.img = pygame.image.load(os.path.join(os.getcwd(), 'assets\\sprites\\npc\\npc.png'))
+            self.surf = self.img.convert_alpha()
+            self.rect = self.surf.get_rect(topleft=kwargs['pos'])
+            self.size = kwargs['size']
+            self.overworld_pos = self.rect.topleft
         self.player = player
         self.narrator = narrator
+        self.msg = text
 
         self.text = Text('assets\\sprites\\dialogue\\alphabet.png')
         self.A = self.text.get_letter('A')
 
-        self.overworld_pos = self.rect.topleft
         self.screen = pygame.display.get_surface()
 
         self.speaking = False
@@ -48,6 +50,8 @@ class NPC(pygame.sprite.Sprite):
         pass
 
     def update(self):
+        self.narrator.display_text(self.msg)
         if self.speaking:
             self.narrator.active = True
-            self.narrator.display_text('abcdefg')
+        else:
+            self.narrator.active = False
