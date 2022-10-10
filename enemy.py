@@ -120,6 +120,7 @@ class AngryStapmone(Enemy):
         self.hearts = self.max_hearts
         self.exp = 10
         self.type = 'AngryStapmone'
+        self.message = 'STAPMONE staps you in your tracks!'
 
         self.img = pygame.image.load(os.path.join(os.getcwd(), 'assets\\sprites\\enemy\\angry_stapmone.png'))
         self.surf = pygame.transform.scale(self.img, (40, 40)).convert_alpha()

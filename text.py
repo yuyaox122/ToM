@@ -46,7 +46,7 @@ class Box:
     def update(self):
         self.surf.blit(self.img, (0, 0))
 
-    def show_sentence(self, text, message, pos):
+    def show_sentence(self, text, message, pos):  # shows the sentence in the box
         for j in range(math.floor(self.i)+1):
             order = list(enumerate(message))[j][0]
             index = order % 35
@@ -109,7 +109,7 @@ class Text:
 
         return self.image_at((letters[letter][0], letters[letter][1], 6, 8))
 
-    def show_sentence(self, message, pos, surf):
+    def show_sentence(self, message, pos, surf):  # shows the sentence on the screen
         for (index, letter) in enumerate(message):
             surf.blit(self.get_letter(letter), (pos.x+index*28, pos.y))
 
@@ -127,5 +127,7 @@ class Narrator:
         if self.active:
             self.box.update_message_box(self.text, msg, self.screen, self.player)
             self.player.speed = 0
-        else:
+        elif not self.active:
             self.player.speed = self.player.stats['speed']
+            self.box.i = 0
+

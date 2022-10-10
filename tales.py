@@ -14,7 +14,7 @@ from wall import Wall
 from world_gen import World
 from camera import CameraGroup
 from npc import NPC
-from text import Text, Box, Narrator
+from text import Narrator
 
 pygame.init()
 vec = pygame.math.Vector2
@@ -71,14 +71,12 @@ items.add(item)
 player = Player((400, 400), walls, enemies, npc_group)
 ui = UI(screen, player)
 
-text = Text('assets\\sprites\\dialogue\\alphabet.png')
 narrator = Narrator(player)
-box = Box()
+# box = Box()
 
 Joe = NPC(True, player, narrator, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
                                   'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
                                   'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', **{'size': (30, 30), 'pos': (300, 300)})
-God = NPC(False, player, narrator, 'bbb')
 npc_group.add(Joe)
 
 NUMBER_OF_ENEMIES = 5
@@ -132,13 +130,12 @@ if __name__ == "__main__":
                     player_item_collisions = pygame.sprite.spritecollide(player, items, False)
                     for item in player_item_collisions:
                         item.picked_up()
-
                     for npc in npc_group:
                         if abs(npc.rect.centerx - player.rect.centerx) <=\
                                 (player.surf.get_width() + npc.surf.get_width())/2\
                                 and abs(npc.rect.centery - player.rect.centery) <= \
                                 (player.surf.get_height() + npc.surf.get_width())/2:
-                            npc.dialogue()
+                                    npc.dialogue()
                                                         
                 if event.key == pygame.K_h:
                     for _ in range(100):

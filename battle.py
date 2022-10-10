@@ -3,7 +3,7 @@ from pygame.locals import *
 
 from button import Button, ItemButton, FightButton, Selector
 from enemy import Healthbar
-from text import Text
+from text import Text, Box, Narrator
 
 import os
 
@@ -34,6 +34,8 @@ def battle(player, enemy, inventory):
     battle_screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption('Tales of Mapstonia')
     background_colour = BLACK
+
+    narrator = Narrator(player)
 
     item_button = ItemButton((100, 500), inventory)
     fight_button = FightButton((800, 500), inventory)
@@ -103,8 +105,9 @@ def battle(player, enemy, inventory):
                         enemy.hearts -= selector.current.attributes['damage']
 
         battle_screen.fill(background_colour)
-
         selector.rect.topleft = selector.pos
+
+        narrator.display_text('stapmone')
 
         if enemy.hearts <= 0:
             enemy.kill()
@@ -118,8 +121,8 @@ def battle(player, enemy, inventory):
 
         battle_screen.blit(enemy.surf, enemy.rect)
 
-        for button in buttons:
-            battle_screen.blit(button.surf, button.rect)
+        # for button in buttons:
+        #     battle_screen.blit(button.surf, button.rect)
         if item_button.pressed:
             battle_screen.blit(item_button.text_surface, (0, 600))
         if fight_button.pressed:
