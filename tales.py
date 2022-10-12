@@ -64,6 +64,8 @@ inventory.pick_up(MOUSE_CURSOR, KEYBOARD, REWRITE_CODE)
 for i in range(len(inventory.equipped)):
     inventory.equip(inventory.inventory[i])
 
+inventory.learn_code('fire.exe')
+
 item = Item({'tag': 'a square'}, inventory)
 items = pygame.sprite.Group()
 items.add(item)
@@ -88,7 +90,6 @@ for _ in range(NUMBER_OF_ENEMIES):
         player, walls, random.choice(colours), screen, ENEMY_DESPAWN_BOX)
     enemies.add(stapmone)
     all_sprites.add(stapmone)
-
 
 if __name__ == "__main__":
     title()
@@ -131,15 +132,15 @@ if __name__ == "__main__":
                     for item in player_item_collisions:
                         item.picked_up()
                     for npc in npc_group:
-                        if abs(npc.rect.centerx - player.rect.centerx) <=\
-                                (player.surf.get_width() + npc.surf.get_width())/2\
+                        if abs(npc.rect.centerx - player.rect.centerx) <= \
+                                (player.surf.get_width() + npc.surf.get_width()) / 2 \
                                 and abs(npc.rect.centery - player.rect.centery) <= \
-                                (player.surf.get_height() + npc.surf.get_width())/2:
-                                    npc.dialogue()
-                                                        
+                                (player.surf.get_height() + npc.surf.get_width()) / 2:
+                            npc.dialogue()
+
                 if event.key == pygame.K_h:
                     for _ in range(100):
-                        stapmone = AngryStapmone(                    
+                        stapmone = AngryStapmone(
                             (player.rect.left + random.randint(-ENEMY_SPAWN_BOX, ENEMY_SPAWN_BOX),
                              player.rect.top + random.randint(-ENEMY_SPAWN_BOX, ENEMY_SPAWN_BOX)),
                             player, walls, random.choice(colours), screen, ENEMY_DESPAWN_BOX)

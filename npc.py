@@ -35,7 +35,6 @@ class NPC(pygame.sprite.Sprite):
         self.msg = text
 
         self.text = Text('assets\\sprites\\dialogue\\alphabet.png')
-        self.A = self.text.get_letter('A')
 
         self.screen = pygame.display.get_surface()
 

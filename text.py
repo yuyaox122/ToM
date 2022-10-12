@@ -24,10 +24,10 @@ RANDOM_COLOUR = (random.randint(0, 255), random.randint(0, 255), random.randint(
 
 class Box:
     def __init__(self):
-        self.surf = pygame.Surface((1120, 297), pygame.SRCALPHA)
+        self.surf = pygame.Surface((1120, 280), pygame.SRCALPHA)
         self.img = pygame.transform.scale(
             pygame.image.load(os.path.join(os.getcwd(), 'assets\\sprites\\dialogue\\text_box.png')),
-            (1120, 297)
+            (1120, 280)
         )
         # self.img = pygame.image.load(os.path.join(os.getcwd(), 'assets\\sprites\\dialogue\\text_box.png'))
         self.rect = self.surf.get_rect()
@@ -54,7 +54,10 @@ class Box:
                 pos.y += 42
                 self.surf.blit(text.get_letter(message[j]), vec(70, pos.y))
             else:
-                self.surf.blit(text.get_letter(message[j]), vec(pos.x+index*28, pos.y))
+                if message[j] != message[0] and message[j-1] == '!':
+                    self.surf.blit(text.get_letter(message[j]), vec(pos.x+index*28-16, pos.y))
+                else:
+                    self.surf.blit(text.get_letter(message[j]), vec(pos.x+index*28, pos.y))
         if self.i < len(message) - self.text_speed:
             self.i += self.text_speed
 
@@ -69,11 +72,15 @@ class Text:
         self.sheet = pygame.image.load(filename).convert_alpha()
         self.screen = pygame.display.get_surface()
 
-    def image_at(self, rectangle):
+    def image_at(self, rectangle, **kwargs):
         rect = pygame.Rect(rectangle)  # format of (topleft_x, topleft_y, x_change, y_change)
         image = pygame.Surface(rect.size, pygame.SRCALPHA)
         image.blit(self.sheet, (0, 0), rect)
-        image = pygame.transform.scale(image, (24, 32))
+        if kwargs:
+            if kwargs['char'] == '!':
+                image = pygame.transform.scale(image, (8, 32))
+        else:
+            image = pygame.transform.scale(image, (24, 32))
         return image
 
     def get_letter(self, letter):
@@ -104,10 +111,15 @@ class Text:
                    'X': (21, 36),
                    'Y': (28, 36),
                    'Z': (0, 45),
-                   ' ': (7, 45)
+                   '!': (7, 45),
+                   '?': (10, 45),
+                   ' ': (17, 45)
                    }
 
-        return self.image_at((letters[letter][0], letters[letter][1], 6, 8))
+        if letter == '!':
+            return self.image_at((letters[letter][0], letters[letter][1], 2, 8), **{'char': '!'})
+        else:
+            return self.image_at((letters[letter][0], letters[letter][1], 6, 8))
 
     def show_sentence(self, message, pos, surf):  # shows the sentence on the screen
         for (index, letter) in enumerate(message):

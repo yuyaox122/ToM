@@ -24,6 +24,9 @@ class Button(pygame.sprite.Sprite):
         self.surf = pygame.transform.scale(img, (200, 80)).convert_alpha()
         self.rect = self.surf.get_rect(topleft=pos)
 
+        self.dialogue = pygame.image.load(os.path.join(os.getcwd(), f'assets\\sprites\\battle\\dialogue.png'))
+        self.dialogue = pygame.transform.scale(self.dialogue, (1160, 290)).convert_alpha()
+
         self.display_surf = pygame.display.get_surface()
         self.selector = None
 
@@ -33,25 +36,7 @@ class Button(pygame.sprite.Sprite):
 class ItemButton(Button):
     def __init__(self, pos, inventory):
         super().__init__(pos, 'item')
-
-        self.inventory = inventory
-
-        self.text_surface = None
-
-    def activate(self):
-        if self.pressed:
-            self.pressed = False
-        elif not self.pressed:
-            self.pressed = True
-            font = pygame.font.SysFont('Comic Sans MS', 18)
-            self.text_surface = font.render(f'{self.inventory.inventory}', False, WHITE)
-
-
-class FightButton(Button):
-    def __init__(self, pos, inventory):
-        super().__init__(pos, 'fight')
-        self.dialogue = pygame.image.load(os.path.join(os.getcwd(), f'assets\\sprites\\battle\\dialogue.png'))
-        self.dialogue = pygame.transform.scale(self.dialogue, (1160, 290)).convert_alpha()
+        self.name = 'ITEM'
 
         self.inventory = inventory
 
@@ -59,6 +44,42 @@ class FightButton(Button):
         self.pressed = True
         self.selector = Selector(self.inventory.equipped[0], [*list(self.inventory.equipped.values()), 'back'])
         self.selector.pos = vec(20, 450)
+
+
+class FightButton(Button):
+    def __init__(self, pos, inventory):
+        super().__init__(pos, 'fight')
+        self.name = 'FIGHT'
+
+        self.inventory = inventory
+
+    def activate(self):
+        self.pressed = True
+        self.selector = Selector(self.inventory.equipped[0], [*list(self.inventory.equipped.values()), 'back'])
+        self.selector.pos = vec(20, 450)
+
+
+class CodeButton(Button):
+    def __init__(self, pos, inventory):
+        super().__init__(pos, 'code')
+        self.name = 'CODE'
+        self.inventory = inventory
+
+    def activate(self):
+        self.pressed = True
+        self.selector = Selector(self.inventory.codes[0], [*list(self.inventory.codes.values()), 'back'])
+        self.selector.pos = vec(20, 450)
+
+
+class ActionButton(Button):
+    def __init__(self, pos):
+        super().__init__(pos, 'action')
+        self.name = 'ACTION'
+
+    def activate(self):
+        self.pressed = True
+        self.selector = None
+        self.selector.pos = None
 
 
 class Selector(pygame.sprite.Sprite):
